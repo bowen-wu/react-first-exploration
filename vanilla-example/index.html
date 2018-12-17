@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>JS Bin</title>
+</head>
+
+<body>
+    <div id="app">
+    </div>
+
+    <script src="https://cdn.bootcss.com/redux/4.0.0/redux.min.js"></script>
+    <script>
+        let store = Redux.createStore(stateChanger);
+
+        function add1() {
+            store.dispatch({
+                type: 'add'
+            }); // 1 dispatch 一个 action  === 触发一个事件 === 派发一个动作
+        }
+
+        function render(store) {
+            let app = document.querySelector('#app');
+            app.innerHTML = `
+                <div>
+                你点击了 <span id="value">${store.getState()}</span> 次
+                <div>
+                    <button id="add1" onclick="add1()">+1</button>
+                    <button id="minus1">-1</button>
+                    <button id="add1IfOdd">如果是单数就 +1</button>
+                    <button id="add1After2Sec">2s钟后 +1</button>
+                </div>
+                </div>
+            `
+        }
+
+        function stateChanger(state, action) {
+            if (state === undefined) {
+                return 0;
+            }
+            switch (action.type) {
+                case 'add':
+                    return state + 1; // 2 根据操作生成新的 state + 触发一个事件
+                    break;
+                default:
+                    return state;
+                    break;
+            }
+        }
+
+        render(store);
+        store.subscribe(() => {
+            render(store); // 3 接收到事件，重新 render
+        });
+    </script>
+</body>
+
+</html>
