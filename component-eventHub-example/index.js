@@ -23,8 +23,8 @@ let money = {
   
   let store= {
     init() {
-      eventHub.on('consume', (data) => {
-        money.amount -= data;
+      eventHub.on('consume', (data) => {  // subscribe
+        money.amount -= data;  // reducer
         render();
       })
     }
@@ -101,7 +101,8 @@ let money = {
       }
     }
     paid() {
-      eventHub.trigger('consume', 100);
+      // action === type + payload
+      eventHub.trigger('consume', 100);  // dispatch
     }
     render() {
       return (
