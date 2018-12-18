@@ -1,11 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import "./styles.css";
 
 function App() {
   const [count /* 值 */, setCount /* 更新函数 */] = useState(0 /* 初始值 */);
+  useEffect(() => {
+      // output 不知道从哪里来，所以是有副作用的函数，所以要放置在 useEffect
+      document.querySelector('#output').innerText = count;
+  })
   const [user, setUser] = useState({name: 'bowen', age: 18, hobbies: ['lol', 'dog', 'code']});
   const add = () => {
     setCount(count + 1);
@@ -32,7 +36,7 @@ function App() {
       });
   }
   return (
-    <div>
+    <div className="App">
         <div>{count}</div>
         <div>
             <button onClick={add}>+1</button>
