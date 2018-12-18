@@ -86,8 +86,8 @@ class App extends React.Component {
                     console.log('value', value);
                     this.setState({
                         value: {
+                            ...this.state.x,
                             n: value,
-                            setN: this.state.value.setN
                         }
                     });
                 }
