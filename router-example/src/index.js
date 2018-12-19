@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import "./styles.css";
 
@@ -15,53 +16,26 @@ function Welcome() {
 }
 
 function App() {
-  let path = window.location.path;
-  let initUi = ''
-  console.log('path', path);
-  if(path === '/welcome') {
-      initUi = 'welcome';
-  } else if (path === '/login') {
-      initUi = 'login';
-  } else {
-      initUi = 'signup'
-  }
-
-  let [ui, setUi] = useState(initUi);
-
-  let onClickLogin = () => {
-    setUi('login');
-    window.history.pushState(null, '', 'login');
-  };
-
-  let onClickSignup = () => {
-    setUi('signup');
-    window.history.pushState(null, '', 'signup');
-  };
-
-  let onClickWelcome = () => {
-      setUi('welcome');
-      window.history.pushState(null, '', '/welcome');
-  }
-
-  let showUi = () => {
-      if(ui === 'welcome') {
-          return <Welcome />
-      } else if(ui === 'login') {
-          return <Login />
-      } else {
-          return <Signup />
-      }
-  }
-
   return (
     <div className="App">
-      <button onClick={onClickLogin}>登录</button>
-      <button onClick={onClickSignup}>注册</button>
-      <button onClick={onClickWelcome}>欢迎</button>
-      <div>{showUi()}</div>
+      App
     </div>
   );
 }
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+ReactDOM.render(
+    <Router>
+    <div>
+        <Link to="/"><button>Home</button></Link>
+        <Link to="/login/"><button>Login</button></Link>
+        <Link to="/signup/"><button>Signup</button></Link>
+        <Link to="/welcome/"><button>Welcome</button></Link>
+
+        <Route path="/" exact component={App} />
+        <Route path="/login" exact component={Login} />
+        <Route path="/signup" exact component={Signup} />
+        <Route path="/welcome" exact component={Welcome} />
+
+    </div>
+  </Router>, rootElement);
