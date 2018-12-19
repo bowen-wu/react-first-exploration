@@ -11,17 +11,17 @@ function Box2() {
 }
 
 function App() {
-  let hash = window.location.hash;
-  console.log("hash", hash);
+  let pathname = window.location.pathname;
+  console.log("pathname", pathname);
 
-  let [ui, setUi] = useState(hash === "#signup" ? "signUp" : "login");
+  let [ui, setUi] = useState(pathname === "/signup" ? "signUp" : "login");
   let onClickLogin = () => {
     setUi("login");
-    window.location.hash = "login";
+    window.history.pushState(null, '', "login");
   };
   let onClickSignUp = () => {
     setUi("signUp");
-    window.location.hash = "signup";
+    window.history.pushState(null, '', "signup");
   };
 
   return (
