@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/react/16.7.0/umd/react.production.min.js"></script>
+    <script src="https://cdn.bootcss.com/react-dom/16.7.0/umd/react-dom.production.min.js"></script>
+    <style>
+        #root{
+            padding: 20px;
+        }
+        .red{
+            color: red;
+        }
+        .border{
+            border: 1px solid green;
+        } 
+        .button{
+            display: block;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script>
+        let text = 'hello world'; // 声明变量
+        let onButtonClick = () => {
+            text = 'I change'; // 更改变量
+            render();
+        };
+        render()
+
+        function render() {
+            let span = React.createElement('span', {className: 'red'}, text);
+            let button = React.createElement('button', {className: 'button', onClick: onButtonClick}, 'change');
+            let div = React.createElement('div', {className: 'border'}, span, button);
+            ReactDOM.render(div, document.querySelector('#root'));
+        }
+    </script>
+</body>
+</html>
