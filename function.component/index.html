@@ -29,7 +29,11 @@
     <script>
         let text = 'hello world'; // 声明变量
         let onButtonClick = () => {
-            text = 'I change'; // 更改变量
+            if(text === 'hello world') {
+                text = 'I change'; // 更改变量
+            } else {
+                text = 'hello world'; // 更改变量
+            }
             render();
         };
         render()
