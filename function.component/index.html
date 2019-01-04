@@ -40,26 +40,30 @@
 
         function App() {
             return (
-                <div>  // 此处必须要有一个根元素
-                    <Box1 />
-                    <Box2 />
+                // 此处必须要有一个根元素
+                <div>
+                    <Box1 test='I am extends App' name='Box1 from App' text={text}/>
+                    <Box2 text={text}/>
                 </div>
             )
         }
 
-        function Box1() {
+        function Box1(props) {
             return (
                 <div className='border'>
-                    <span className='red'>{text}</span>
+                    test -> {props.test} <br />
+                    name -> {props.name}
+                    <hr />
+                    <span className='red'>{props.text}</span>
                     <button className='button' onClick={onButtonClick}>change</button>
                 </div>
             )
         }
         
-        function Box2() {
+        function Box2(props) {
             return (
                 <div className='border'>
-                    <span className='red'>{text}</span>
+                    <span className='red'>{props.text}</span>
                     <button className='button' onClick={onButtonClick}>change</button>
                 </div>
             )
