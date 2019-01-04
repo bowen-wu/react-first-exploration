@@ -40,7 +40,24 @@
 
         function App() {
             return (
-                // JSX
+                <div>  // 此处必须要有一个根元素
+                    <Box1 />
+                    <Box2 />
+                </div>
+            )
+        }
+
+        function Box1() {
+            return (
+                <div className='border'>
+                    <span className='red'>{text}</span>
+                    <button className='button' onClick={onButtonClick}>change</button>
+                </div>
+            )
+        }
+        
+        function Box2() {
+            return (
                 <div className='border'>
                     <span className='red'>{text}</span>
                     <button className='button' onClick={onButtonClick}>change</button>
