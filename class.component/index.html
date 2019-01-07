@@ -27,35 +27,75 @@
     <div id="root"></div>
     
     <script>
-        let number = 0
-
         class App extends React.Component {
+            render() {
+                return (
+                <div>
+                    <Box1 type='box1 from parents'/>
+                    <Box2 type='box2 from parents'/>
+                </div>
+                )
+            }
+        }
+
+        class Box1 extends React.Component {
             constructor(props) {
                 super(props);
                 this.state = {
-                    text: 'hello world',
+                text: 'box1 hello world',
                 }
             }
             onButtonClick() {
-                if(this.state.text === 'hello world') {
-                    this.setState({
-                        text: 'I change', // 更改变量
-                    })
-                    } else {
-                    this.setState({
-                        text: 'hello world', // 更改变量
-                    })
+                if(this.state.text === 'box1 hello world') {
+                this.setState({
+                    text: 'box1 I change', // 更改变量
+                })
+                } else {
+                this.setState({
+                    text: 'box1 hello world', // 更改变量
+                })
                 }
             }
             render() {
                 return (
-                    <div>
-                        {this.props.number} {this.props.name}
-                        <hr />
-                        
-                        <span className='red'>{this.state.text}</span>
-                        <button className='button' onClick={this.onButtonClick.bind(this)}>change</button>
-                    </div>
+                <div>
+                    {this.props.type}
+                    <hr />
+
+                    <span className='red'>{this.state.text}</span>
+                    <button className='button' onClick={this.onButtonClick.bind(this)}>change</button>
+                </div>
+                )
+            }
+        }
+
+        class Box2 extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                text: 'box2 hello world',
+                }
+            }
+            onButtonClick() {
+                if(this.state.text === 'box2 hello world') {
+                this.setState({
+                    text: 'box2 I change', // 更改变量
+                })
+                } else {
+                this.setState({
+                    text: 'box2 hello world', // 更改变量
+                })
+                }
+            }
+            render() {
+                return (
+                <div>
+                    {this.props.type}
+                    <hr />
+
+                    <span className='red'>{this.state.text}</span>
+                    <button className='button' onClick={this.onButtonClick.bind(this)}>change</button>
+                </div>
                 )
             }
         }
@@ -64,7 +104,7 @@
 
         function render() {
             ReactDOM.render(
-                <App number={number} name="name"/>,
+                <App />,
                 document.querySelector('#root')
             );
         }
