@@ -20,9 +20,25 @@ class Parents extends React.Component {
             <div className="parents">
                 <div>I am parents</div>
                 <div>Who call me? -> {this.state.guy}</div>
-                <Son1 callParent={this.onCallParent1.bind(this)} age={this.state.son1Age}/>
-                <Son2 callParent={this.onCallParent2.bind(this)} age={this.state.son2Age}/>
+                <Home onCallParent1={this.onCallParent1.bind(this)}
+                      onCallParent2={this.onCallParent2.bind(this)}
+                      son1Age={this.state.son1Age}
+                      son2Age={this.state.son2Age}/>
             </div>
+        )
+    }
+}
+
+class Home extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+          <div>
+              <Son1 callParent={this.props.onCallParent1.bind(this)} age={this.props.son1Age}/>
+              <Son2 callParent={this.props.onCallParent2.bind(this)} age={this.props.son2Age}/>
+          </div>
         )
     }
 }
