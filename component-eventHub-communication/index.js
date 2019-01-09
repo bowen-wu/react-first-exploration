@@ -2,6 +2,7 @@ let money = {
     amount: 10000,
 };
 
+
 let events = {};
 let eventHub = {
     emit(eventName, data) {
@@ -20,28 +21,43 @@ let eventHub = {
     }
 }
 
-function App() {
-  return (
-      <div className='app'>
-          <Papa1 />
-          <Papa2 />
-      </div>
-  )
+let store = {
+    init() {
+        eventHub.on('I want to consume', (data) => {
+            money.amount -= data;
+            render();
+        })
+    }
+}
+store.init();
+
+class App extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            money
+        }
+    }
+    render() {
+        return (
+          <div className='app'>
+              <Papa1 money={this.state.money}/>
+              <Papa2 money={this.state.money}/>
+          </div>
+        )
+    }
 }
 
 class Papa1 extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            money,
-        }
     }
     render() {
         return (
             <div className='papa'>
-                Papa1 {this.state.money.amount}<hr />
-                <Son1 />
-                <Son2 />
+                Papa1 {this.props.money.amount}<hr />
+                <Son1 money={this.props.money}/>
+                <Son2 money={this.props.money}/>
             </div>
         )
     }
@@ -51,16 +67,13 @@ class Papa1 extends React.Component {
 class Papa2 extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            money,
-        }
     }    
     render() {
         return (
             <div className='papa'>
-                Papa2 {this.state.money.amount}<hr />
-                <Son3 />
-                <Son4 />
+                Papa2 {this.props.money.amount}<hr />
+                <Son3 money={this.props.money}/>
+                <Son4 money={this.props.money}/>
             </div>
         )
     }
@@ -69,14 +82,11 @@ class Papa2 extends React.Component {
 class Son1 extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            money,
-        }
     }
     render() {
         return (
             <div className='son'>
-                Son1 {this.state.money.amount}
+                Son1 {this.props.money.amount}
             </div>
         )
     }
@@ -85,19 +95,14 @@ class Son1 extends React.Component {
 class Son2 extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            money,
-        }
     }
     consume() {
-        money.amount -= 100;
-        eventHub.emit('consume', 100);
-        this.setState({money});
+        eventHub.emit('I want to consume', 100);
     }
     render() {
         return (
             <div className='son'>
-                Son2 {this.state.money.amount}
+                Son2 {this.props.money.amount}
                 <button onClick={this.consume.bind(this)}>consume</button>
             </div>
         )
@@ -107,18 +112,11 @@ class Son2 extends React.Component {
 class Son3 extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            money,
-        }
-        eventHub.on('consume', (data) => {
-            console.log('data', data);
-            this.setState({money});
-        })
     }
     render() {
         return (
             <div className='son'>
-                Son3 {this.state.money.amount}
+                Son3 {this.props.money.amount}
             </div>
         )
     }
@@ -127,17 +125,18 @@ class Son3 extends React.Component {
 class Son4 extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            money,
-        }
     }
     render() {
         return (
             <div className='son'>
-                Son4 {this.state.money.amount}
+                Son4 {this.props.money.amount}
             </div>
         )
     }
 }
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+function render() {
+    ReactDOM.render(<App />, document.querySelector('#root'));
+}
+
+render();
