@@ -21,7 +21,7 @@ let eventHub = {
     }
 }
 
-let store = {
+let steward = {
     init() {
         eventHub.on('I want to consume', (data) => {
             money.amount -= data;
@@ -29,7 +29,7 @@ let store = {
         })
     }
 }
-store.init();
+steward.init();
 
 class App extends React.Component{
     constructor(props) {
