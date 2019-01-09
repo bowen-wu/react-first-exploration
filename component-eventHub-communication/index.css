@@ -1,0 +1,23 @@
+.app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
+    margin: 20px;
+    padding: 10px;
+}
+
+.papa {
+    border: 1px solid #00f;
+    padding: 20px;
+    flex: 1;
+    margin: 10px;
+    color: #00f;
+}
+
+.son {
+    border: 1px solid green;
+    color: red;
+    padding: 10px;
+    margin: 10px 0;
+}
