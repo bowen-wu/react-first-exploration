@@ -2,6 +2,24 @@ let money = {
     amount: 10000,
 };
 
+let events = {};
+let eventHub = {
+    emit(eventName, data) {
+        if(!events[eventName]) {
+            return;
+        }
+        events[eventName].forEach(callback => {
+            callback.call(null, data);
+        })
+    },
+    on(eventName, callback) {
+        if(!events[eventName]) {
+            events[eventName] = []
+        }
+        events[eventName].push(callback);
+    }
+}
+
 function App() {
   return (
       <div className='app'>
@@ -71,10 +89,16 @@ class Son2 extends React.Component {
             money,
         }
     }
+    consume() {
+        money.amount -= 100;
+        eventHub.emit('consume', 100);
+        this.setState({money});
+    }
     render() {
         return (
             <div className='son'>
                 Son2 {this.state.money.amount}
+                <button onClick={this.consume.bind(this)}>consume</button>
             </div>
         )
     }
@@ -86,6 +110,10 @@ class Son3 extends React.Component {
         this.state = {
             money,
         }
+        eventHub.on('consume', (data) => {
+            console.log('data', data);
+            this.setState({money});
+        })
     }
     render() {
         return (
