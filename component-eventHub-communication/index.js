@@ -1,48 +1,33 @@
-let money = {
-    amount: 10000,
-};
-
-
-let events = {};
-let eventHub = {
-    emit(eventName, data) {
-        if(!events[eventName]) {
-            return;
+let createStore = Redux.createStore;
+let reducers = (state = 0, action) => {
+    state = state || {
+        money: {
+            amount: 10000,
         }
-        events[eventName].forEach(callback => {
-            callback.call(null, data);
-        })
-    },
-    on(eventName, callback) {
-        if(!events[eventName]) {
-            events[eventName] = []
-        }
-        events[eventName].push(callback);
+    }
+    switch (action.type) {
+        case 'I want to consume':
+            return {
+                money: {
+                    amount: state.money.amount - action.payload
+                }
+            }
+        default:
+            return state
     }
 }
+const store = createStore(reducers);
 
-let steward = {
-    init() {
-        eventHub.on('I want to consume', (data) => {
-            money.amount -= data;
-            render();
-        })
-    }
-}
-steward.init();
 
 class App extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {
-            money
-        }
     }
     render() {
         return (
           <div className='app'>
-              <Papa1 money={this.state.money}/>
-              <Papa2 money={this.state.money}/>
+              <Papa1 money={this.props.store.money}/>
+              <Papa2 money={this.props.store.money}/>
           </div>
         )
     }
@@ -97,7 +82,9 @@ class Son2 extends React.Component {
         super(props);
     }
     consume() {
-        eventHub.emit('I want to consume', 100);
+        // eventHub.emit('I want to consume', 100);
+        
+        store.dispatch({ type: 'I want to consume', payload: 100 });
     }
     render() {
         return (
@@ -136,7 +123,8 @@ class Son4 extends React.Component {
 }
 
 function render() {
-    ReactDOM.render(<App />, document.querySelector('#root'));
+    ReactDOM.render(<App store={store.getState()}/>, document.querySelector('#root'));
 }
 
 render();
+store.subscribe(render);
