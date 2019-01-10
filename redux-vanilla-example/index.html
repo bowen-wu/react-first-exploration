@@ -13,9 +13,10 @@
 
     <script src="https://cdn.bootcss.com/redux/4.0.0/redux.min.js"></script>
     <script>
-        let store = Redux.createStore(stateChanger);
+        let store = Redux.createStore(stateChanger);  // stateChanger -> 函数
 
         function add1() {
+            // 进行更改 store，不能直接操作 store
             store.dispatch({
                 type: 'add'
             }); // 1 dispatch 一个 action  === 触发一个事件 === 派发一个动作
@@ -37,11 +38,15 @@
         }
 
         function stateChanger(state, action) {
+            // state -> 初始状态 | 之前的状态
+            // action -> 动作 | 操作
             if (state === undefined) {
+                // 初始化 state
                 return 0;
             }
             switch (action.type) {
                 case 'add':
+                    // 需要 return 新的状态
                     return state + 1; // 2 根据操作生成新的 state + 触发一个事件
                     break;
                 default:
@@ -51,6 +56,7 @@
         }
 
         render(store);
+        // 订阅 store 的更新事件
         store.subscribe(() => {
             render(store); // 3 接收到事件，重新 render
         });
