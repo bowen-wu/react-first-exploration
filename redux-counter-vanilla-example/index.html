@@ -13,9 +13,10 @@
 
     <script src="https://cdn.bootcss.com/redux/4.0.0/redux.min.js"></script>
     <script>
-        let store = Redux.createStore(stateChanger);
+        let store = Redux.createStore(stateChanger); // stateChanger -> 函数
 
         function add1() {
+            // 进行更改 store，不能直接操作 store
             store.dispatch({
                 type: 'add',
                 payload: 1
@@ -25,11 +26,12 @@
         function add2() {
             store.dispatch({
                 type: 'add',
-                payload: 2
+                payload: 2  // 告诉操作，更新的量是多少
             })
         }
 
         function addIf() {
+            // store.getState() 获取之前的数据
             if (store.getState() % 2 === 1) {
                 store.dispatch({
                     type: 'add',
@@ -39,12 +41,14 @@
         }
 
         function addAsync() {
+            // store.dispatch 要在异步之后在去 store.dispatch， 不可以在 stateChanger 中异步
             setTimeout(() => {
                 store.dispatch({
                     type: 'add',
                     payload: 1
                 });
             }, 2000);
+            // 在 stateChanger 中异步
             // store.dispatch({type: 'add2', payload: 1});
         }
 
@@ -65,13 +69,22 @@
         }
 
         function stateChanger(state, action) {
+            // state -> 初始状态 | 之前的状态
+            // action -> 动作 | 操作
             if (state === undefined) {
                 return 0;
             }
             switch (action.type) {
                 case 'add':
+                    // 需要 return 新的状态
                     return state + action.payload; // 2 根据操作生成新的 state + 触发一个事件
                     break;
+                case 'add2': 
+                    // 这里不可以进行异步操作，因为异步的时候，return 的是 undefined
+                    setTimeout(() => {
+                        return state + action.payload;
+                    }, 2000);
+                    // return undefined
                 default:
                     return state;
                     break;
@@ -80,6 +93,7 @@
 
 
         render(store);
+        // 订阅 store 的更新事件
         store.subscribe(() => {
             render(store); // 3 接收到事件，重新 render
         });
